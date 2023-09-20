@@ -11,3 +11,7 @@ sky:
     access-key-id: LTAI5tFqKQwrrRJKi6fQsS57
     access-key-secret: 5CuFVGQuOvUgJpOkJJrfVFgbyltWKg
     bucket-name: ywh-sky
+  redis:
+    host: localhost
+    port: 6379
+    datebase: 10
