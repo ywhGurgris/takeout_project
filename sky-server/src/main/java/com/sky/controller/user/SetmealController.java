@@ -2,9 +2,7 @@ package com.sky.controller.user;
 
 import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
-import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
-import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetmealService;
 import com.sky.vo.DishItemVO;
@@ -21,18 +19,6 @@ import java.util.List;
 public class SetmealController {
     @Autowired
     private SetmealService setmealService;
-
-    /**
-     * 新增套餐
-     * @param setmealDTO
-     * @return
-     */
-    @PostMapping
-    @ApiOperation("新增套餐")
-    public Result save(@RequestBody SetmealDTO setmealDTO) {
-        setmealService.saveWithDish(setmealDTO);
-        return Result.success();
-    }
 
     /**
      * 条件查询
@@ -62,29 +48,5 @@ public class SetmealController {
     public Result<List<DishItemVO>> dishList(@PathVariable("id") Long id) {
         List<DishItemVO> list = setmealService.getDishItemById(id);
         return Result.success(list);
-    }
-
-    /**
-     * 分页查询
-     * @param setmealPageQueryDTO
-     * @return
-     */
-    @GetMapping("/page")
-    @ApiOperation("分页查询")
-    public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO) {
-        PageResult pageResult = setmealService.pageQuery(setmealPageQueryDTO);
-        return Result.success(pageResult);
-    }
-
-    /**
-     * 批量删除套餐
-     * @param ids
-     * @return
-     */
-    @DeleteMapping
-    @ApiOperation("批量删除套餐")
-    public Result delete(@RequestParam List<Long> ids){
-        setmealService.deleteBatch(ids);
-        return Result.success();
     }
 }
