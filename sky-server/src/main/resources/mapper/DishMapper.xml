@@ -36,7 +36,7 @@
         order by d.create_time desc
     </select>
     <update id="update">
-        update setmeal
+        update dish
         <set>
             <if test="categoryId != null">category_id = #{categoryId},</if>
             <if test="name != null">name = #{name},</if>
