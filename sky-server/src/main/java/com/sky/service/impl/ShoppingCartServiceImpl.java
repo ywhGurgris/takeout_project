@@ -51,13 +51,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
             //查询添加的是套餐还是菜品
             Long dishId = shoppingCartDTO.getDishId();
-            if (dishId != null){
+            if (dishId != null) {
                 //本次添加菜品
                 Dish dish = dishMapper.getById(dishId);
                 shoppingCart.setName(dish.getName());
                 shoppingCart.setImage(dish.getImage());
                 shoppingCart.setAmount(dish.getPrice());
-            }else{
+            } else {
                 Long setmealId = shoppingCartDTO.getSetmealId();
                 Setmeal setmeal = setmealMapper.getById(setmealId);
                 shoppingCart.setName(setmeal.getName());
@@ -69,7 +69,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCart.setNumber(1);
             shoppingCartMapper.insert(shoppingCart);
         }
+    }
 
-
+    /**
+     * 查看购物车
+     * @return
+     */
+    public List<ShoppingCart> showShoppingCart() {
+        Long userId = BaseContext.getCurrentId();
+        ShoppingCart shoppingCart = ShoppingCart.builder()
+                .userId(userId)
+                .build();
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
+        return list;
     }
 }
