@@ -11,6 +11,7 @@ import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
 import com.sky.entity.ShoppingCart;
 import com.sky.exception.AddressBookBusinessException;
+import com.sky.exception.OrderBusinessException;
 import com.sky.exception.ShoppingCartBusinessException;
 import com.sky.mapper.AddressBookMapper;
 import com.sky.mapper.OrderDetailMapper;
@@ -27,9 +28,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderSercvice {
@@ -139,4 +142,57 @@ public class OrderServiceImpl implements OrderSercvice {
         orderVO.setOrderDetailList(details);
         return orderVO;
     }
+
+
+    /**
+     * 取消订单
+     * @param id
+     */
+    public void userCancelOrders(Long id) {
+        Orders orders = orderMapper.getById(id);
+        if (orders == null)
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+
+        if (orders.getStatus() > 2){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        //1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+        if (orders.getStatus() == 1 || orders.getStatus() == 2){
+            orders.setStatus(Orders.CANCELLED);
+            orders.setCancelReason("用户取消");
+            orders.setCancelTime(LocalDateTime.now());
+            orderMapper.update(orders);
+        }
+
+    }
+
+    /**
+     * 再来一单
+     *
+     * @param id
+     */
+    public void repetition(Long id) {
+        // 查询当前用户id
+        Long userId = BaseContext.getCurrentId();
+
+        // 根据订单id查询当前订单详情
+        List<OrderDetail> orderDetailList = orderDetailMapper.getByOrdersId(id);
+
+        // 将订单详情对象转换为购物车对象
+        List<ShoppingCart> shoppingCartList = orderDetailList.stream().map(x -> {
+            ShoppingCart shoppingCart = new ShoppingCart();
+
+            // 将原订单详情里面的菜品信息重新复制到购物车对象中
+            BeanUtils.copyProperties(x, shoppingCart, "id");
+            shoppingCart.setUserId(userId);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+
+            return shoppingCart;
+        }).collect(Collectors.toList());
+
+        // 将购物车对象批量添加到数据库
+        shoppingCartMapper.insertBatch(shoppingCartList);
+    }
 }
+

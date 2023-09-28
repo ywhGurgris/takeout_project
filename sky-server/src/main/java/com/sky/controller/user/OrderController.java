@@ -61,4 +61,23 @@ public class OrderController {
         OrderVO orderVO = orderSercvice.orderDetails(id);
         return Result.success(orderVO);
     }
+
+    @PutMapping("/cancel/{id}")
+    public Result orderCancel(@PathVariable Long id){
+        orderSercvice.userCancelOrders(id);
+        return Result.success();
+
+    }
+    /**
+     * 再来一单
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/repetition/{id}")
+    @ApiOperation("再来一单")
+    public Result repetition(@PathVariable Long id) {
+        orderSercvice.repetition(id);
+        return Result.success();
+    }
 }

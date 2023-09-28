@@ -28,4 +28,17 @@ public interface OrderSercvice {
      * @return
      */
     OrderVO orderDetails(Long id);
+
+    /**
+     * 订单取消
+     * @param id
+     */
+    void userCancelOrders(Long id);
+
+    /**
+     * 再来一单
+     *
+     * @param id
+     */
+    void repetition(Long id);
 }
