@@ -45,4 +45,7 @@
         </where>
         order by order_time desc
     </select>
+    <select id="statistics">
+        select count()
+    </select>
 </mapper>

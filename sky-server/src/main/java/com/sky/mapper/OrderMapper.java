@@ -14,6 +14,11 @@ public interface OrderMapper {
      */
     void insert(Orders orders);
 
+    /**
+     * 历史订单查询
+     * @param ordersPageQueryDTO
+     * @return
+     */
     Page<Orders> historyOrdersQuery(OrdersPageQueryDTO ordersPageQueryDTO);
 
     @Select("select * from orders where id = #{id}")
@@ -21,4 +26,11 @@ public interface OrderMapper {
 
 
     void update(Orders orders);
+
+
+
+    void statistics();
+
+    @Select("select count(id) from orders where status = #{status}")
+    Integer countStatus(Integer status);
 }
