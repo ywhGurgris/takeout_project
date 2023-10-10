@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Map;
+
 @Mapper
 public interface UserMapper {
 
@@ -23,4 +25,6 @@ public interface UserMapper {
      * @param user
      */
     void insertUser(User user);
+
+    Integer getByMap(Map map);
 }
