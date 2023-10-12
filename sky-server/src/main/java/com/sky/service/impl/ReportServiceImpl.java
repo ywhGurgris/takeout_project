@@ -1,10 +1,13 @@
 package com.sky.service.impl;
 
+import com.sky.dto.GoodsSalesDTO;
+import com.sky.entity.Dish;
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -110,20 +114,20 @@ public class ReportServiceImpl implements ReportService {
      * @return
      */
     public OrderReportVO getOdersStatistics(LocalDate begin, LocalDate end) {
-        //存放日期
-        List<LocalDate> localDates = new ArrayList<>();
-        //将日期时间段存放到list集合中
-        localDates.add(begin);
-        while (!begin.equals(end)){
+        //存放begin-end 日期的list
+        List<LocalDate> localDateList = new ArrayList<>();
+        localDateList.add(begin);
+        while(!begin.equals(end)){
             begin = begin.plusDays(1);
-            localDates.add(begin);
+            localDateList.add(begin);
         }
+
         //orderCountList 每日订单数，以逗号分割 select count(id) from orders where order_time > ? and order_time < ?
         List<Integer> orderCountList = new ArrayList<>(); //存放每日订单数
         //validOrderCountList每日有效订单数，以逗号分隔， select count(id) from orders where order_time > ? and order_time < ? and status  = 5
         List<Integer>  validOrderCountList = new ArrayList<>(); //存放每日有效订单数
 
-        for (LocalDate localDate : localDates){
+        for (LocalDate localDate : localDateList){
             LocalDateTime beginTime = LocalDateTime.of(localDate,LocalTime.MIN);
             LocalDateTime endTime = LocalDateTime.of(localDate,LocalTime.MAX);
             Map map = new HashMap();
@@ -142,9 +146,12 @@ public class ReportServiceImpl implements ReportService {
         map.put("status",Orders.COMPLETED);
         Integer validOrderCount = orderMapper.orderSumBymap(map);
         //orderCompletionRate订单完成率   validOrderCount/totalOrderCount * 100
-        Double orderCompletionRate = validOrderCount.doubleValue()/totalOrderCount.doubleValue();   //转换成double封装类
+        Double orderCompletionRate = 0.0;
+        if (totalOrderCount != 0){
+            orderCompletionRate = validOrderCount.doubleValue()/totalOrderCount;   //转换成double封装类
+        }
         return OrderReportVO.builder()
-                .dateList(StringUtils.join(localDates,","))
+                .dateList(StringUtils.join(localDateList,","))
                 .orderCountList(StringUtils.join(orderCountList,","))
                 .validOrderCountList(StringUtils.join(validOrderCountList,","))
                 .totalOrderCount(totalOrderCount)
@@ -152,4 +159,31 @@ public class ReportServiceImpl implements ReportService {
                 .orderCompletionRate(orderCompletionRate)
                 .build();
     }
+
+    /**
+     * 销量top10 统计
+     * @param begin
+     * @param end
+     * @return
+     */
+    public SalesTop10ReportVO getTop10(LocalDate begin, LocalDate end) {
+
+
+        //select od.name,od.number from order_detail od JOIN orders o on od.order_id = o.id where o.status=5 and o.order_time < "2023-10-12" and o.order_time > "2023-09-01" group by od.name order by od.number desc  limit 0,10
+
+        LocalDateTime beginTime = LocalDateTime.of(begin,LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end,LocalTime.MAX);
+        List<GoodsSalesDTO> goodsSalesDTOS = orderMapper.selectSaleTop10(beginTime,endTime);
+        List<String> names = goodsSalesDTOS.stream().map(GoodsSalesDTO::getName).collect(Collectors.toList());
+        String stringName = StringUtils.join(names, ",");
+        List<Integer> numbers = goodsSalesDTOS.stream().map(GoodsSalesDTO::getNumber).collect(Collectors.toList());
+        String stringNumber = StringUtils.join(numbers, ",");
+
+        return SalesTop10ReportVO.builder()
+                .nameList(stringName)
+                .numberList(stringNumber)
+                .build();
+    }
+
+
 }
