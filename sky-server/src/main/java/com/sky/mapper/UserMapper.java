@@ -26,5 +26,10 @@ public interface UserMapper {
      */
     void insertUser(User user);
 
+    /**
+     * 用户数查询
+     * @param map
+     * @return
+     */
     Integer getByMap(Map map);
 }

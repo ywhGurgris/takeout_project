@@ -80,7 +80,7 @@
     <select id="selectSaleTop10" resultType="com.sky.dto.GoodsSalesDTO">
         select od.name, sum(od.number) number
         from order_detail od,orders o
-        where od.order_id = o.id and o.status = 5
+        where od.order_id = o.id and o.status = #{status}
         <if test="begin != null">
             and o.order_time &gt; #{begin}
         </if>
@@ -91,4 +91,5 @@
         order by number desc
         limit 0,10
     </select>
+
 </mapper>

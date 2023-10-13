@@ -173,7 +173,11 @@ public class ReportServiceImpl implements ReportService {
 
         LocalDateTime beginTime = LocalDateTime.of(begin,LocalTime.MIN);
         LocalDateTime endTime = LocalDateTime.of(end,LocalTime.MAX);
-        List<GoodsSalesDTO> goodsSalesDTOS = orderMapper.selectSaleTop10(beginTime,endTime);
+        Map map = new HashMap();
+        map.put("begin",beginTime);
+        map.put("end",endTime);
+        map.put("status",Orders.COMPLETED);
+        List<GoodsSalesDTO> goodsSalesDTOS = orderMapper.selectSaleTop10(map);
         List<String> names = goodsSalesDTOS.stream().map(GoodsSalesDTO::getName).collect(Collectors.toList());
         String stringName = StringUtils.join(names, ",");
         List<Integer> numbers = goodsSalesDTOS.stream().map(GoodsSalesDTO::getNumber).collect(Collectors.toList());

@@ -61,5 +61,10 @@ public interface OrderMapper {
      */
     Integer orderSumBymap(Map map);
 
-    List<GoodsSalesDTO> selectSaleTop10(LocalDateTime begin,LocalDateTime end);
+    /**
+     *
+     * @param map
+     * @return
+     */
+    List<GoodsSalesDTO> selectSaleTop10(Map map);
 }
