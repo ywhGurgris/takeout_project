@@ -20,7 +20,7 @@
 
 工作台
 
-![image-20231017152639873](E:\软件\Typora\images\image-20231017152639873.png)
+![image-20231017152639873](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017152639873.png)
 
 数据统计
 
