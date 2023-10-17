@@ -24,36 +24,36 @@
 
 数据统计
 
-![image-20231017152724057](E:\软件\Typora\images\image-20231017152724057.png)
+![image-20231017152724057](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017152724057.png)
 
 订单管理
 
-![image-20231017152745763](E:\软件\Typora\images\image-20231017152745763.png)
+![image-20231017152745763](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017152745763.png)
 
 套餐管理
 
-![image-20231017152759798](E:\软件\Typora\images\image-20231017152759798.png)
+![image-20231017152759798](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017152759798.png)
 
 菜品管理
 
-![image-20231017152812142](E:\软件\Typora\images\image-20231017152812142.png)
+![image-20231017152812142](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017152812142.png)
 
 分类管理
 
-![image-20231017152828258](E:\软件\Typora\images\image-20231017152828258.png)
+![image-20231017152828258](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017152828258.png)
 
 员工管理
 
-![image-20231017152842956](E:\软件\Typora\images\image-20231017152842956.png)
+![image-20231017152842956](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017152842956.png)
 
 #### 小程序
 
-![image-20231017154244469](E:\软件\Typora\images\image-20231017154244469.png)
+![image-20231017154244469](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017154244469.png)
 
 地址管理
 
-![image-20231017154313775](E:\软件\Typora\images\image-20231017154313775.png)
+![image-20231017154313775](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017154313775.png)
 
 历史订单
 
-![image-20231017154331073](E:\软件\Typora\images\image-20231017154331073.png)
+![image-20231017154331073](https://github.com/ywhGurgris/takeout_project/blob/master/image/image-20231017154331073.png)
